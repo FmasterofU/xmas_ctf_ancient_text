@@ -4,7 +4,11 @@ import cv2
 import matplotlib.pyplot as plt
 
 threshold=0.975
-proj_path = "c:/Users/igors/Downloads/ancient"
+proj_path = "c:/Users/igors/source/repos/xmas_ctf_ancient_text"
+
+max_article_columns = 2
+max_rows = 18
+max_character_columns = 9
 
 def get_templates(ids, path_prefix):
     listTemplate = list()
@@ -13,7 +17,7 @@ def get_templates(ids, path_prefix):
             small = cv2.imread(path_prefix + os.sep + id + ".png")
             listTemplate.append((id, small.copy()))
         except:
-            pass
+            print("file with the given ID not found, skipping...")
     return listTemplate
 
 
@@ -32,10 +36,6 @@ if __name__ == '__main__':
     image = cv2.imread(proj_path + os.sep + "ancient_text.png")
     path_prefix = proj_path + os.sep + "small"
 
-    ids = list()
-    for i in range(2):
-        for j in range(19):
-            for k in range(9):
-                ids.append(str(i) + "." + str(j) + "." + str(k))
+    ids = [str(i) + "." + str(j) + "." + str(k) for i in range(max_article_columns) for j in range(max_rows) for k in range(max_character_columns)]
 
     search_and_draw_templates(get_templates(ids, path_prefix), image, threshold)
